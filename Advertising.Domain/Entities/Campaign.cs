@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Advertising.Domain.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
