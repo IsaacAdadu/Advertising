@@ -1,4 +1,5 @@
 ﻿using Advertising.Domain.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -8,13 +9,13 @@ using System.Threading.Tasks;
 
 namespace Advertising.Infrastructure.Persistence
 {
-    public class AdvertisingDbContext:DbContext
+    public class AdvertisingDbContext:IdentityDbContext<User,Role, Guid>
     {
         public AdvertisingDbContext(DbContextOptions<AdvertisingDbContext> options) : base(options) { }
 
-        public DbSet<Campaign> campaigns => Set<Campaign>();
-        public DbSet<Banner> banners => Set<Banner>();
-        public DbSet<CampaignLocation> campaignLocations => Set<CampaignLocation>();
+        public DbSet<Campaign> Campaigns => Set<Campaign>();
+        public DbSet<Banner> Banners => Set<Banner>();
+        public DbSet<CampaignLocation> CampaignLocations => Set<CampaignLocation>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

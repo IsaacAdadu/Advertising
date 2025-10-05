@@ -43,7 +43,7 @@ namespace Advertising.Application.Campaigns.Commands.CreateCampaign
                 }
             }
 
-            _db.campaigns.Add(campaign);
+            _db.Campaigns.Add(campaign);
             await _db.SaveChangesAsync(cancellationToken);
 
             // NOTE: Banners upload: for now we do not persist uploaded bytes. We will wire ICloudinaryService later.
