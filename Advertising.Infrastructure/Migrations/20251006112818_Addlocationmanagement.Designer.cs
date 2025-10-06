@@ -4,6 +4,7 @@ using Advertising.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Advertising.Infrastructure.Migrations
 {
     [DbContext(typeof(AdvertisingDbContext))]
-    partial class AdvertisingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251006112818_Addlocationmanagement")]
+    partial class Addlocationmanagement
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
