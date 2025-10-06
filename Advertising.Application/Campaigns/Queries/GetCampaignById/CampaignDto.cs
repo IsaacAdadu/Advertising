@@ -15,7 +15,21 @@ namespace Advertising.Application.Campaigns.Queries.GetCampaignById
         public string Status { get; set; } = default!;
         public decimal Amount { get; set; }
         public Guid OwnerId { get; set; }
-        public List<string> BannerUrls { get; set; } = new();
-        public List<int> LocationIds { get; set; } = new();
+
+        public List<LocationDto> Locations { get; set; } = new();
+        public List<BannerDto> Banners { get; set; } = new();
+    }
+    public class LocationDto
+    {
+        public int Id { get; set; }
+        public string Name { get; set; } = default!;
+        public string State { get; set; } = default!;
+        public string Country { get; set; } = default!;
+    }
+    public class BannerDto
+    {
+        public Guid Id { get; set; }
+        public string Url { get; set; } = default!;
+        public string PublicId { get; set; } = default!;
     }
 }
