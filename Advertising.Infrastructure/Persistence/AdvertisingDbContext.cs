@@ -16,6 +16,7 @@ namespace Advertising.Infrastructure.Persistence
         public DbSet<Campaign> Campaigns => Set<Campaign>();
         public DbSet<Banner> Banners => Set<Banner>();
         public DbSet<CampaignLocation> CampaignLocations => Set<CampaignLocation>();
+        public DbSet<Location> Locations => Set<Location>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
