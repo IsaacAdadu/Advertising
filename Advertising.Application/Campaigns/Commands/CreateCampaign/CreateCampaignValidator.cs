@@ -12,11 +12,17 @@ namespace Advertising.Application.Campaigns.Commands.CreateCampaign
         public CreateCampaignValidator()
         {
             RuleFor(x => x.Name).NotEmpty().MaximumLength(250);
-            RuleFor(x => x.From).LessThan(x => x.To).WithMessage("'From' must be earlier than 'To'.");
-            RuleFor(x => x.Amount).GreaterThanOrEqualTo(0);
-            RuleFor(x => x.Banners)
-                .Must(b => b == null || b.All(f => f.Length <= 2 * 1024 * 1024))
-                .WithMessage("Each banner must be <= 2MB.");
+            RuleFor(x => x.From)
+                .LessThan(x => x.To)
+                .WithMessage("'From' date must be earlier than 'To' date.");
+            RuleFor(x => x.Amount).GreaterThan(0);
+
+            RuleForEach(x => x.Locations).ChildRules(location =>
+            {
+                location.RuleFor(l => l.LocationId).GreaterThan(0);
+                location.RuleFor(l => l.DailyBudget).GreaterThanOrEqualTo(0);
+                location.RuleFor(l => l.TotalBudget).GreaterThanOrEqualTo(0);
+            });
         }
     }
 }

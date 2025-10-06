@@ -9,13 +9,12 @@ using System.Threading.Tasks;
 
 namespace Advertising.Application.Campaigns.Commands.CreateCampaign
 {
+    public record CampaignLocationDto(int LocationId, decimal DailyBudget, decimal TotalBudget);
     public record CreateCampaignCommand(
         string Name,
         DateTime From,
         DateTime To,
-        Guid OwnerId,
         decimal Amount,
-        List<int>LocationIds,
-        List<IFormFile> Banners
-        ):IRequest<Guid>;
+        List<CampaignLocationDto> Locations
+    ) : IRequest<Guid>;
 }
