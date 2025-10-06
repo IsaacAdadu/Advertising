@@ -17,6 +17,7 @@ namespace Advertising.Infrastructure.Persistence
         public DbSet<Banner> Banners => Set<Banner>();
         public DbSet<CampaignLocation> CampaignLocations => Set<CampaignLocation>();
         public DbSet<Location> Locations => Set<Location>();
+        public DbSet<Status> Statuses => Set<Status>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -26,8 +27,35 @@ namespace Advertising.Infrastructure.Persistence
             {
                 b.HasKey(x => x.Id);
                 b.Property(x => x.Name).HasMaxLength(250).IsRequired();
+                // This preserves existing numeric values from the old enum column.
+                b.Property(x => x.StatusId)
+                 .HasColumnName("Status")
+                 .IsRequired()
+                 .HasDefaultValue(0);
+
+                // set up FK to Status table and restrict delete (don't delete statuses when campaigns exist)
+                b.HasOne(c => c.Status)
+                 .WithMany()
+                 .HasForeignKey(c => c.StatusId)
+                 .OnDelete(DeleteBehavior.Restrict);
                 b.HasMany(x => x.Banners).WithOne().HasForeignKey(b => b.CampaignId).OnDelete(DeleteBehavior.Cascade);
                 b.HasMany(x => x.Locations).WithOne().HasForeignKey(l => l.CampaignId).OnDelete(DeleteBehavior.Cascade);
+            });
+
+            // STATUS (new)
+            modelBuilder.Entity<Status>(b =>
+            {
+                b.HasKey(s => s.Id);
+                b.Property(s => s.Name).HasMaxLength(100).IsRequired();
+
+                // seed default statuses matching previous enum integers
+                b.HasData(
+                    new Status { Id = 0, Name = "Draft" },
+                    new Status { Id = 1, Name = "Pending" },
+                    new Status { Id = 2, Name = "Paid" },
+                    new Status { Id = 3, Name = "Running" },
+                    new Status { Id = 4, Name = "Completed" }
+                );
             });
 
             modelBuilder.Entity<Banner>(b =>

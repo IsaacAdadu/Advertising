@@ -1,4 +1,4 @@
-﻿using Advertising.Domain.Enums;
+﻿
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,11 +14,12 @@ namespace Advertising.Domain.Entities
         public string Name { get; set; } = default!;
         public DateTime From { get; set; }
         public DateTime To { get; set; }
-        public CampaignStatus Status { get; set; } = CampaignStatus.Draft;
+        public int StatusId { get; set; } = 0; // default to Draft (0)
+        public Status? Status { get; set; }
         public Guid OwnerId { get; set; }
         public decimal Amount { get; set; }
         public List<Banner> Banners { get; set; } = new();
         public List<CampaignLocation> Locations { get; set; } = new();
-        public bool IsPaid => Status == CampaignStatus.Paid || Status == CampaignStatus.Running;
+        public bool IsPaid => Status != null && (Status.Name == "Paid" || Status.Name == "Running");
     }
 }
