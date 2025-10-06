@@ -26,7 +26,7 @@ namespace Advertising.Application.Campaigns.Commands.UpdateCampaignStatus
             if (campaign == null)
                 return false;
 
-            campaign.Status = request.NewStatus;
+            campaign.StatusId = request.NewStatusId;
             await _context.SaveChangesAsync(cancellationToken);
             return true;
         }
