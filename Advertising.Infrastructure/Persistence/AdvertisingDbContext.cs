@@ -50,11 +50,11 @@ namespace Advertising.Infrastructure.Persistence
 
                 // seed default statuses matching previous enum integers
                 b.HasData(
-                    new Status { Id = 0, Name = "Draft" },
-                    new Status { Id = 1, Name = "Pending" },
-                    new Status { Id = 2, Name = "Paid" },
-                    new Status { Id = 3, Name = "Running" },
-                    new Status { Id = 4, Name = "Completed" }
+                    new Status { Id = -1, Name = "Draft" },
+                    new Status { Id = -2, Name = "Pending" },
+                    new Status { Id = -3, Name = "Paid" },
+                    new Status { Id = -4, Name = "Running" },
+                    new Status { Id = -5, Name = "Completed" }
                 );
             });
 
