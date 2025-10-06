@@ -24,6 +24,7 @@ namespace Advertising.Application.Campaigns.Queries.GetAllCampaigns
             var campaigns = await _context.Campaigns
                 .Include(c => c.Banners)
                 .Include(c => c.Locations)
+                .Include(c => c.Status)
                 .ToListAsync(cancellationToken);
 
             return campaigns.Select(c => new CampaignDto
@@ -32,7 +33,7 @@ namespace Advertising.Application.Campaigns.Queries.GetAllCampaigns
                 Name = c.Name,
                 From = c.From,
                 To = c.To,
-                Status = c.Status.ToString(),
+                Status = c.Status?.Name ?? "Unknown",
                 Amount = c.Amount,
                 OwnerId = c.OwnerId,
                 Banners = c.Banners.Select(b => new BannerDto
