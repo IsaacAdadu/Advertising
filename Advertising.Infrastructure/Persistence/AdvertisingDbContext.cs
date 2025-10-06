@@ -36,9 +36,44 @@ namespace Advertising.Infrastructure.Persistence
                 b.Property(x => x.PublicId).IsRequired();
             });
 
+            // LOCATION
+            // -------------------------
+            modelBuilder.Entity<Location>(b =>
+            {
+                b.HasKey(x => x.Id);
+
+                b.Property(x => x.Name)
+                    .HasMaxLength(150)
+                    .IsRequired();
+
+                b.Property(x => x.State)
+                    .HasMaxLength(100)
+                    .IsRequired();
+
+                b.Property(x => x.Country)
+                    .HasMaxLength(100)
+                    .IsRequired();
+
+                b.HasMany(x => x.Campaigns)
+                    .WithOne()
+                    .HasForeignKey(cl => cl.LocationId)
+                    .OnDelete(DeleteBehavior.Cascade);
+            });
+
             modelBuilder.Entity<CampaignLocation>(b =>
             {
                 b.HasKey(x => x.Id);
+                b.Property(x => x.DailyBudget)
+                    .HasPrecision(18, 2)
+                    .IsRequired();
+
+                b.Property(x => x.TotalBudget)
+                    .HasPrecision(18, 2)
+                    .IsRequired();
+
+                // Optionally: composite unique constraint (Campaign + Location)
+                b.HasIndex(x => new { x.CampaignId, x.LocationId })
+                    .IsUnique();
             });
 
         }
