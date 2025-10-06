@@ -1,5 +1,4 @@
 ﻿using Advertising.Domain.Entities;
-using Advertising.Domain.Enums;
 using Advertising.Infrastructure.Persistence;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -36,7 +35,7 @@ namespace Advertising.Application.Campaigns.Commands.CreateCampaign
                 To = request.To,
                 OwnerId = Guid.Parse(ownerId),
                 Amount = request.Amount,
-                Status = CampaignStatus.Draft
+                StatusId = 0
             };
 
             // attach selected locations
