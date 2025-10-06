@@ -1,3 +1,4 @@
+using Advertising.API.Middleware;
 using Advertising.Application.Campaigns.Commands.CreateCampaign;
 using Advertising.Domain.Entities;
 using Advertising.Infrastructure.Persistence;
@@ -73,6 +74,9 @@ builder.Services.AddAuthentication(options =>
 
 // Register token generator
 builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
+builder.Services.AddHttpContextAccessor();
+
+
 
 
 
@@ -88,8 +92,33 @@ builder.Services.AddSwaggerGen(c =>
         Version = "v1",
         Description = "API for managing advertising campaigns, users, and payments."
     });
+
+
+// 🔑 Add JWT Authentication Support
+c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+{
+    Name = "Authorization",
+    Type = SecuritySchemeType.ApiKey,
+    Scheme = "Bearer",
+    BearerFormat = "JWT",
+    In = ParameterLocation.Header,
+    Description = "Enter 'Bearer' [space] and then your token.\n\nExample: Bearer eyJhbGciOiJIUzI1NiIs..."
 });
-//builder.Services.AddEndpointsApiExplorer();
+
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            Array.Empty<string>()
+        }
+});   });//builder.Services.AddEndpointsApiExplorer();
 //builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
@@ -102,6 +131,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseAuthentication();
+
+app.UseMiddleware<ProfileCompletedMiddleware>();
 
 app.UseAuthorization();
 
